@@ -29,7 +29,7 @@ contract energyMarket {
         } else {
             price = vendors[vendor].remainingCapacity * energyCost;
             amount -= vendors[vendor].remainingCapacity;
-            price += (amount * vendors[vendor].tax * energyCost) / 100;
+            price += (amount * energyCost) +(amount * energyCost) * (vendors[vendor].tax / 100);
             vendors[vendor].remainingCapacity = 0;
         }
 
@@ -68,5 +68,13 @@ contract energyMarket {
     function setTax(uint newTax) public {
         require(vendors[msg.sender].active == true, "You don t are a vendor");
         vendors[msg.sender].tax = newTax;
+    }
+    function removeVendor()public{ 
+        require(vendors[msg.sender].active == true, "You don t are a vendor");
+        vendors[msg.sender].active = false;
+        vendors[msg.sender].dailyCapacity = 0;
+        vendors[msg.sender].remainingCapacity = 0;
+        vendors[msg.sender].saldo = 0;
+        vendors[msg.sender].tax = 0;
     }
 }
