@@ -2,16 +2,17 @@
 // Compatible with OpenZeppelin Contracts ^5.0.0
 pragma solidity ^0.8.20;
 
-contract energymarket {
+contract energyMarket {
     mapping(address => Vendor) public vendors;
 
     address owner;
-    uint energyCost;
+    uint public energyCost;
     struct Vendor {
         uint saldo;
         uint tax;
         uint dailyCapacity; // Média
         uint remainingCapacity;
+        bool active;
     }
 
     constructor(uint _energyCost) {
@@ -21,16 +22,14 @@ contract energymarket {
 
     function buyEnergy(address vendor, uint amount) external payable {
         uint price;
+
         if (vendors[vendor].remainingCapacity >= amount) {
-            vendors[vendor].remainingCapacity =
-                vendors[vendor].remainingCapacity -
-                amount;
             price = amount * energyCost;
             vendors[vendor].remainingCapacity -= amount;
         } else {
             price = vendors[vendor].remainingCapacity * energyCost;
             amount -= vendors[vendor].remainingCapacity;
-            price += amount * vendors[vendor].tax * energyCost;
+            price += (amount * vendors[vendor].tax * energyCost) / 100;
             vendors[vendor].remainingCapacity = 0;
         }
 
@@ -43,25 +42,22 @@ contract energymarket {
         }
     }
 
-    function changeCapacity(address vendorAddress, uint newCapacity) public {
-        require(msg.sender == vendorAddress, "Incorrect address");
-        vendors[vendorAddress].dailyCapacity = newCapacity;
+    function changeCapacity(uint newCapacity) public {
+        require(vendors[msg.sender].active == true, "You don t are a vendor");
+        vendors[msg.sender].dailyCapacity = newCapacity;
     }
 
-    function addVendor(
-        address newVendor,
-        uint newCapacity,
-        uint newTax
-    ) public {
-        require(msg.sender == owner, "You need to be the owner to do this");
-        vendors[newVendor].dailyCapacity = newCapacity;
-        vendors[newVendor].tax = newTax;
-        vendors[newVendor].remainingCapacity = newCapacity;
-        vendors[newVendor].saldo = 0;
+    function addVendor(uint newCapacity, uint newTax) public {
+        vendors[msg.sender].dailyCapacity = newCapacity;
+        vendors[msg.sender].tax = newTax;
+        vendors[msg.sender].remainingCapacity = newCapacity;
+        vendors[msg.sender].saldo = 0;
+        vendors[msg.sender].active = true;
     }
 
     function Withdraw() public payable {
         payable(msg.sender).transfer(vendors[msg.sender].saldo);
+        vendors[msg.sender].saldo = 0;
     }
 
     function setEnergyCost(uint newEnergyCost) public {
@@ -69,8 +65,8 @@ contract energymarket {
         energyCost = newEnergyCost;
     }
 
-    function setTax(address vendorAddress, uint newTax) public {
-        require(msg.sender == vendorAddress, "Incorrect addres");
-        vendors[vendorAddress].tax = newTax;
+    function setTax(uint newTax) public {
+        require(vendors[msg.sender].active == true, "You don t are a vendor");
+        vendors[msg.sender].tax = newTax;
     }
 }
