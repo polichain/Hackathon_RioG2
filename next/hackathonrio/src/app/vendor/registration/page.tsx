@@ -5,9 +5,14 @@ import React, { useState } from "react";
 
 export default function Page() {
   const [capacity, setCapacity] = useState("");
+  const [tax, setTax] = useState<number | "">("");
 
   const handleSetCapacity = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCapacity(event.target.value);
+  };
+
+  const handleSetTax = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTax(event.target.value === "" ? "" : Number(event.target.value));
   };
 
   return (
@@ -21,6 +26,13 @@ export default function Page() {
               value={capacity}
               onChange={handleSetCapacity}
               placeholder="Capacity"
+              className="px-4 py-2 border rounded"
+            />
+            <input
+              type="number"
+              value={tax}
+              onChange={handleSetTax}
+              placeholder="Tax"
               className="px-4 py-2 border rounded"
             />
           </form>
