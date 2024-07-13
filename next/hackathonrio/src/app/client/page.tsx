@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function Page() {
   const [showVendors, setShowVendors] = useState(false);
-  const vendors = ['Vendor A', 'Vendor B', 'Vendor C']; //ta estatico mas tem que mudar isso//
+  const vendors = ['Vendor 1A', 'Vendor B', 'Vendor C']; //ta estatico mas tem que mudar isso//
 
   const toggleVendors = () => {
     setShowVendors(!showVendors);
