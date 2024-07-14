@@ -1,12 +1,16 @@
 "use client"; 
-
+import Link from 'next/link';
 import { useState } from 'react';
 import Image from 'next/image';
+import test from 'node:test';
 
 export default function Page() {
   const [showVendors, setShowVendors] = useState(false);
-  const vendors = ['Vendor 1A', 'Vendor B', 'Vendor C']; //ta estatico mas tem que mudar isso//
-
+  const vendor = [
+    { name: 'Vendor 1', route: '/example' },
+    { name: 'Vendor 2', route: '/example2' },
+    { name: 'Vendor 3', route: '/example3'}
+  ];
   const toggleVendors = () => {
     setShowVendors(!showVendors);
   };
@@ -16,15 +20,20 @@ export default function Page() {
       <div className="text-xl mb-8">Buy Energy</div>
       <div className="flex flex-col items-center space-y-4">
         <header>
-          <button onClick={toggleVendors} className="px-4 py-2 border rounded">
-            Select Vendor
+        <div className="flex justify-center">
+            <button onClick={toggleVendors} className="px-4 py-2 border rounded">
+                Select Vendor
           </button>
-          {showVendors && (
-            <ul className="mt-4 border p-4 rounded space-y-2">
-              {vendors.map((vendor, index) => (
+        </div>
+          {showVendors &&  (
+            
+            <ul className="mt-4 border p-4 rounded space-y-2 max-h-40 overflow-y-auto">
+              {vendor.map((vendor, index) => (
+                <Link key={index} href={vendor.route}>
                 <li key={index} className="py-1 px-2 hover:bg-gray-200 rounded cursor-pointer">
-                  {vendor}
+                  {vendor.name}
                 </li>
+                </Link>
               ))}
             </ul>
           )}
