@@ -7,7 +7,7 @@ import test from 'node:test';
 export default function Page() {
   const [showVendors, setShowVendors] = useState(false);
   const vendor = [
-    { name: 'Vendor 1', route: '/example' },
+    { name: 'Vendor 1', route: '/example1' },
     { name: 'Vendor 2', route: '/example2' },
     { name: 'Vendor 3', route: '/example3'}
   ];
@@ -29,7 +29,7 @@ export default function Page() {
             
             <ul className="mt-4 border p-4 rounded space-y-2 max-h-40 overflow-y-auto">
               {vendor.map((vendor, index) => (
-                <Link key={index} href={vendor.route}>
+                <Link key={index} href={`/client${vendor.route}`}>
                 <li key={index} className="py-1 px-2 hover:bg-gray-200 rounded cursor-pointer">
                   {vendor.name}
                 </li>
