@@ -17,7 +17,7 @@ export default function Page() {
       event.preventDefault(); //faz com q só atualize o price dps do enter
       const value = amount === "" ? 0 : amount;
       setPrice(value * 2 + 3); // Calcula o preço
-      //setPrice(value * (capacity - amount) )
+
       /*
       if (capacity > amount)
         price = value * (capacity - amount)
