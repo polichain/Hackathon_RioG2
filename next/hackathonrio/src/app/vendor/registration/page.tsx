@@ -2,11 +2,17 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
+import { useWriteEnergyMarketAddVendor } from "../../../generated";
 
 export default function Page() {
   const [capacity, setCapacity] = useState<number | "">("");
   const [tax, setTax] = useState<number | "">("");
   const [place, setPlace] = useState("");
+
+  const { write, isLoading, isSuccess, isError, error } =
+    useWriteEnergyMarketAddVendor({
+      args: [capacity, tax], // Pass the arguments to the contract function
+    });
 
   const handleSetPlace = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPlace(event.target.value);
@@ -20,12 +26,18 @@ export default function Page() {
     setTax(event.target.value === "" ? "" : Number(event.target.value));
   };
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    // Call the write function to interact with the smart contract
+    write();
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div className="text-xl mb-8">Vendor Registration</div>
       <div className="flex flex-col items-center space-y-4">
         <header>
-          <form>
+          <form onSubmit={handleSubmit}>
             <input
               type="number"
               value={capacity}
@@ -47,7 +59,20 @@ export default function Page() {
               placeholder="Place"
               className="px-4 py-2 border rounded"
             />
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded mt-4"
+              disabled={isLoading}
+            >
+              {isLoading ? "Submitting..." : "Submit"}
+            </button>
           </form>
+          {isSuccess && (
+            <p className="text-green-500 mt-4">Vendor added successfully!</p>
+          )}
+          {isError && (
+            <p className="text-red-500 mt-4">Error: {error?.message}</p>
+          )}
         </header>
       </div>
     </main>

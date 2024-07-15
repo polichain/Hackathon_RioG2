@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^5.2.2",
+    "@tanstack/react-query": "^5.51.1",
     "next": "14.2.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "viem": "^2.17.4",
+    "wagmi": "^2.10.10"
   },
   "devDependencies": {
     "@types/node": "20.14.10",
