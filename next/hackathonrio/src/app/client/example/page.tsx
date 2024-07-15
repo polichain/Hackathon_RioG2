@@ -17,16 +17,30 @@ export default function Page() {
       event.preventDefault(); //faz com q só atualize o price dps do enter
       const value = amount === "" ? 0 : amount;
       setPrice(value * 2 + 3); // Calcula o preço
-
-      /*
-      if (capacity > amount)
-        price = value * (capacity - amount)
-      if (capacity < amount)
-        price = value * capacity
-        price = value * tax * (amount -capacity) */
-
     }
-  };
+  }
+
+/*
+const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const value = amount === "" ? 0 : amount;
+      let calculatedPrice = 0;
+
+      if (capacity > value) {
+        calculatedPrice = preco_da_energia * (capacity - value);
+      } else if (capacity < value) {
+        calculatedPrice = preco_da_energia * capacity
+        calculatedPrice = calculatedPrice * tax * (value - capacity);
+      }
+
+      setPrice(calculatedPrice);
+    }
+  }
+  */
+  
+
+  
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
