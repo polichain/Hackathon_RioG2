@@ -7,7 +7,7 @@ import test from 'node:test';
 export default function Page() {
   const [showVendors, setShowVendors] = useState(false);
   const vendor = [
-    { name: 'Vendor 1', route: '/example1' },
+    { name: 'Vendor 1', route: '/example' },
     { name: 'Vendor 2', route: '/example2' },
     { name: 'Vendor 3', route: '/example3'}
   ];
