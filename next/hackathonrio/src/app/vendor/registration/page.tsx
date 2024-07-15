@@ -6,6 +6,11 @@ import React, { useState } from "react";
 export default function Page() {
   const [capacity, setCapacity] = useState<number | "">("");
   const [tax, setTax] = useState<number | "">("");
+  const [place, setPlace] = useState("");
+
+  const handleSetPlace = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPlace(event.target.value);
+  };
 
   const handleSetCapacity = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCapacity(event.target.value === "" ? "" : Number(event.target.value));
@@ -33,6 +38,13 @@ export default function Page() {
               value={tax}
               onChange={handleSetTax}
               placeholder="Tax"
+              className="px-4 py-2 border rounded"
+            />
+            <input
+              type="text"
+              value={place}
+              onChange={handleSetPlace}
+              placeholder="Place"
               className="px-4 py-2 border rounded"
             />
           </form>
